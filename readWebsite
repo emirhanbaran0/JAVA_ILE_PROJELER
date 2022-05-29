@@ -1,0 +1,31 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		
+		try {
+			URL myLink=new URL("https://tr.wikipedia.org/wiki/Dil");
+			Scanner scan = new Scanner(myLink.openStream());
+			int count=0;
+			while(scan.hasNext())
+			{
+				String line=scan.nextLine();
+				count+=line.length();
+				System.out.println(line);
+			}
+			System.out.println();
+			System.out.println("There is "+count+ " character in that page.");
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		
+	}
+	}
