@@ -1,0 +1,10 @@
+package Characters;
+
+public class WeakSovalye  extends Sovalye {
+
+	public WeakSovalye(String name, int id) {
+		super(name, id);
+		this.setSovalyeType("WeakSovalye");
+	}
+
+}
