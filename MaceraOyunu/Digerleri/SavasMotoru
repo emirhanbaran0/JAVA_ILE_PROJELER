@@ -1,0 +1,113 @@
+package Others;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import Characters.*;
+import GameData.CSVGameData;
+import GameView.GameView;
+
+public class BattleMotor {
+
+	 Scanner scan=new Scanner(System.in);
+	 GameView gW2=new GameView();
+	
+	 static int round=1;
+	Sovalye sovalye;
+	Enemy enemy;
+	String neOldu;
+	public BattleMotor()
+	{
+		
+	}
+	
+	public  void Fight(ArrayList<Sovalye> sovalyeler,ArrayList<Enemy> enemies,Sovalye sovalye,Enemy enemy)
+	{
+		boolean control=true;
+		if(sovalye.getActive() && sovalye.getActive())
+		{
+			
+			if(sovalye.getSovalyeType().equals("StrongSovalye") && (enemy.getEnemyType().equals("WeakEnemy") || enemy.getEnemyType().equals("StrongEnemy")) )
+			{
+				System.out.println("Hedef Vuruldu.");
+				System.out.println("Düşman Yok Edildi.");
+				sovalye.setBasariliVurus(sovalye.getBasariliVurus()+1);
+				sovalye.setVurusHakki(sovalye.getVurusHakki()-1);
+				if(sovalye.getVurusHakki()<=0)
+					sovalye.setActive(false);
+				enemy.setStatus(false);
+				enemy.setActive(false);
+				control=gW2.showtheGameStatus(enemies, sovalyeler);	
+				neOldu=round+". Round'da "+sovalye.getName()+" adlı sövalye "+enemy.getName()+" adlı düşmana vurarak onu öldürmüştür." ; 
+				//System.out.println(neOldu);
+				round++;
+			}
+			
+			else if(sovalye.getSovalyeType().equals("WeakSovalye") && enemy.getEnemyType().equals("WeakEnemy"))
+			{
+				System.out.println("Hedef Vuruldu.");
+				System.out.println("Düşman Yok Edildi.");
+				sovalye.setBasariliVurus(sovalye.getBasariliVurus()+1);
+				sovalye.setVurusHakki(sovalye.getVurusHakki()-1);
+				if(sovalye.getVurusHakki()<=0)
+					sovalye.setActive(false);
+				enemy.setStatus(false);
+				enemy.setActive(false);
+				control=gW2.showtheGameStatus(enemies, sovalyeler);
+				 neOldu=round+". Round'da "+sovalye.getName()+" adlı sövalye "+enemy.getName()+" adlı düşmana vurmuştur ama düşman güçlü ve şövalye zayıf olduğu için ölmüştür."  ;
+				 //System.out.println(neOldu);
+				 round++;
+			}
+			else 
+			{
+				if(sovalye.getVurusHakki()==3)
+				{
+					System.out.println("Hedef Vuruldu.");
+					System.out.println("Düşman Yok Edildi.");
+					sovalye.setBasariliVurus(sovalye.getBasariliVurus()+1);
+					sovalye.setVurusHakki(sovalye.getVurusHakki()-1);
+					if(sovalye.getVurusHakki()<=0)
+						sovalye.setActive(false);
+					enemy.setStatus(false);
+					enemy.setActive(false);
+					control=gW2.showtheGameStatus(enemies, sovalyeler);
+					 neOldu=round+". Round'da "+sovalye.getName()+" adlı sövalye "+enemy.getName()+" adlı düşmana vurmuştur ama düşman güçlü ve şövalye zayıf olduğu için ölmüştür."  ;
+					 //System.out.println(neOldu);
+					 round++;
+				}
+				else
+				{
+					sovalye.hit(enemy);
+					System.out.println("Zayıf Şövalye ile güçlü düşmanı yenemezsiniz.");
+					sovalye.setVurusHakki(sovalye.getVurusHakki()-1);
+					sovalye.setActive(false);
+					sovalye.setStatus(false);
+					control=gW2.showtheGameStatus(enemies, sovalyeler);
+					// neOldu=round+". Round'da "+sovalye.getName()+" adlı sövalye "+enemy.getName()+" adlı düşmana vurmuştur ama düşman güçlü ve şövalye zayıf olduğu için ölmüştür."  ;
+					
+					 round++;
+				}
+			}
+			if(control==false)
+			{
+				neOldu=round+". round'da oyun sona ermiştir.";
+				System.exit(0);
+			}
+		}
+		else
+		{
+			System.out.println("Seçilen Şövalye Aktif Değildir!");
+			neOldu= round+". Round'da kullanıcı aktif olmayan bir şövalye seçmiştir!";
+			//System.out.println(neOldu);
+			round++;
+		}
+		
+	
+	}
+	
+	public String getNeOldu()
+	{
+		return this.neOldu;
+	}
+	
+}
