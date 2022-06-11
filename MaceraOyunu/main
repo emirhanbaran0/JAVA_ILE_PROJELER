@@ -1,0 +1,27 @@
+import java.io.IOException;
+import java.util.ArrayList;
+
+import Characters.*;
+import GameData.*;
+import GameView.*;
+import Others.*;
+
+public class main {
+
+	public static void main(String[] args) throws IOException {
+		ArrayList<Sovalye> sovalyeler=Sovalye.createSovalye();
+		ArrayList<Enemy> enemies=Enemy.createEnenmy();
+		GameView gW1=new GameView(sovalyeler,enemies);
+		GameData gD1=new GameData(sovalyeler,enemies);
+		BattleMotor bM1=new BattleMotor();
+		CSVGameData csvGD1=new CSVGameData(sovalyeler,enemies,bM1);
+		csvGD1.openTheFile();
+		csvGD1.writeSovalyelertoFile();
+		csvGD1.writeEnemiestoFile();
+		FileReader fR1=new FileReader();
+		fR1.oku(csvGD1.openTheFile());	
+		gW1.showtheMainMenu();
+		
+	}
+		
+}
