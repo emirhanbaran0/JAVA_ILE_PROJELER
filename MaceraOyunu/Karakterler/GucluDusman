@@ -1,0 +1,11 @@
+package Characters;
+
+public class StrongEnemy extends Enemy {
+
+	public StrongEnemy(String name, int id) {
+		super(name, id);
+		this.enemyType="StrongEnemy";
+	}
+
+	
+}
