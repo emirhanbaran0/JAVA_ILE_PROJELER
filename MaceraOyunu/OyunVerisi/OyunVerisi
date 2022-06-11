@@ -1,0 +1,63 @@
+package GameData;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import Characters.*;
+import Others.*;
+
+public class GameData {
+
+	private ArrayList<Sovalye> sovalyeler=new ArrayList<>();
+	private ArrayList<Sovalye> activeSovalyeler=new ArrayList<>();
+	private ArrayList<Enemy> enemies=new ArrayList<>();
+	private ArrayList<Enemy> activeEnemies=new ArrayList<>();
+	private ArrayList<Chance> chances=new ArrayList<>();
+	
+	Scanner scan=new Scanner(System.in);
+	
+	
+	public GameData(ArrayList<Sovalye> sovalyeler,ArrayList<Enemy> enemies)
+	{
+		this.sovalyeler=sovalyeler;
+		this.enemies=enemies;
+	}
+		
+	
+	public ArrayList<Sovalye> getSovalyeler() {
+		return sovalyeler;
+	}
+
+	public ArrayList<Sovalye> getActiveSovalyeler() {
+		return activeSovalyeler;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	public ArrayList<Enemy> getSovalye(Sovalye name) {
+		
+		return null;
+	}
+
+	public ArrayList<Chance> getChances() {
+		return chances;
+	}
+
+
+	public ArrayList<Enemy> getActiveEnemies() {
+		return activeEnemies;
+	}
+
+
+	public void setActiveEnemies(ArrayList<Enemy> activeEnemies) {
+		this.activeEnemies = activeEnemies;
+	}
+	
+	
+}
