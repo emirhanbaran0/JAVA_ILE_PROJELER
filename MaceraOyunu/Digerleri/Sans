@@ -1,0 +1,44 @@
+package Others;
+
+import java.util.Random;
+
+import Characters.*;
+
+public class Chance {
+
+	private boolean goodChance;
+	private boolean badChance;
+	private int chance;
+	Random rand=new Random();
+	
+	public int  asSignChance(Sovalye s)
+	{
+		
+		this.chance=rand.nextInt(100); 
+		if(chance<10)
+			return rand.nextInt(1)+1;
+		else
+			return 1;
+	}
+	
+	public String toString()
+	{
+		return null;
+	}
+
+	public boolean isBadChance() {
+		return badChance;
+	}
+
+	public void setBadChance(boolean badChance) {
+		this.badChance = badChance;
+	}
+
+	public boolean isGoodChance() {
+		return goodChance;
+	}
+
+	public void setGoodChance(boolean goodChance) {
+		this.goodChance = goodChance;
+	}
+}
