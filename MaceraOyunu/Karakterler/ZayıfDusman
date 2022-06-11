@@ -1,0 +1,10 @@
+package Characters;
+
+public class WeakEnemy extends Enemy {
+
+	public WeakEnemy(String name, int id) {
+		super(name, id);
+		this.enemyType="WeakEnemy";
+	}
+
+}
