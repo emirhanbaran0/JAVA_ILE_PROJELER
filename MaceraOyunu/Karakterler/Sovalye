@@ -1,0 +1,124 @@
+package Characters;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import Others.*;
+
+public class Sovalye extends Character {
+	
+	private boolean status;
+	private int vurusHakki;
+	private Chance chance=new Chance();
+	private String sovalyeType;
+	private int basariliVurus;
+	static Random rand=new Random();
+	
+	public Sovalye(String name, int id) {
+		super(name, id);
+		if(rand.nextInt(5)<5)  //Eğer 1 gelirse iyi şans şövalyeye iyi şans atanır.
+		{
+			this.chance.setGoodChance(true);
+			this.chance.setBadChance(false);
+			this.vurusHakki=1+chance.asSignChance(this);
+		}
+		else //Diğer durumlarda ise  şövalyeye kötü şans atanır.
+		{
+			this.chance.setBadChance(true);
+			this.chance.setGoodChance(false);
+			this.vurusHakki=0;
+		}
+		this.status=true;
+		this.setBasariliVurus(0);
+	}
+
+
+	public int getVurusHakki() {
+		return vurusHakki;
+	}
+
+
+	public void setVurusHakki(int vurusHakki) {
+		this.vurusHakki = vurusHakki;
+	}
+	
+	public void hit(Enemy d)
+	{
+		System.out.println("Hedefteki Düşman "+d.getName() +"'a Vuruldu");
+	}
+	
+	public String toString()
+	{
+		return null;
+	}
+
+
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+
+	public Chance getChance() {
+		return chance;
+	}
+	
+	public String getSovalyeType() {
+		return sovalyeType;
+	}
+
+	public void setSovalyeType(String sovalyeType) {
+		this.sovalyeType = sovalyeType;
+	}
+	
+	public static ArrayList<Sovalye> createSovalye()
+	{
+		
+		Sovalye[] sovalyeler=new Sovalye[5];
+		ArrayList<Sovalye> sovalyelerList=new ArrayList<>();
+		int strongSovalyeNumber=0;
+		int weakSovalyeNumber=0;
+		int chance,i;
+		for(i=0;i<sovalyeler.length;i++)
+		{
+			chance=rand.nextInt(2);
+			if(chance==0 && strongSovalyeNumber<2)
+			{
+				String ad="Sovalye"+i;
+				sovalyeler[i]=new StrongSovalye(ad,i);
+				sovalyelerList.add(sovalyeler[i]);
+				strongSovalyeNumber++;
+				//System.out.println("strongSovalye");
+			}
+			else
+			{
+				String ad="Sovalye"+i;
+				sovalyeler[i]=new WeakSovalye(ad,i);
+				sovalyelerList.add(sovalyeler[i]);
+				weakSovalyeNumber++;
+				//System.out.println("weakSovalye");
+			}
+		}
+			if(strongSovalyeNumber==0 && i==5)
+			{
+				sovalyeler[1]=new StrongSovalye("Sovalye1",1);
+				sovalyelerList.add(sovalyeler[1]);
+				//System.out.println("strongSovalye");
+			}
+		return sovalyelerList;
+	}
+
+
+	public int getBasariliVurus() {
+		return basariliVurus;
+	}
+
+
+	public void setBasariliVurus(int basariliVurus) {
+		this.basariliVurus = basariliVurus;
+	}
+}
