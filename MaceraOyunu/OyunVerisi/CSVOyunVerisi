@@ -1,0 +1,127 @@
+package GameData;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import Characters.Enemy;
+import Characters.Sovalye;
+import GameView.GameView;
+import Others.BattleMotor;
+
+public class CSVGameData extends GameView {
+
+	
+	BattleMotor battleMotor=new BattleMotor();
+	public CSVGameData(ArrayList<Sovalye> sovalyeler, ArrayList<Enemy> enemies,BattleMotor battleMotor) {
+		super(sovalyeler, enemies);
+		this.battleMotor=battleMotor;
+	}
+	File file;
+	FileWriter fr;
+	BufferedWriter bf;
+	
+	
+	@SuppressWarnings("finally")
+	public File openTheFile()     //Verilerin kaydedileceği dosyayı oluşturan fonksiyonu burada yazdım.
+	{
+		try
+		{
+			this.file=new File("C:\\Users\\User\\OneDrive\\Masaüstü\\InitialData.text");
+			this.fr=new FileWriter(file,true);
+			this.bf=new BufferedWriter(fr);
+			
+		}
+		catch(IOException e)
+		{
+			System.out.println("Dosya Oluşturulamadı!");
+			e.printStackTrace();
+		}
+		finally {
+			return file;
+		}
+	}
+	
+	public void writeSovalyelertoFile() throws IOException   //Başlangıçta Oluşturulan Şövalyelerin Dosyaya Yazılmasını bu fonksiyon ile sağladım.
+	{
+		try {
+			openTheFile();
+			bf.write("ŞÖVALYELER");  
+			for(int i=0;i<sovalyeler.size();i++)
+			{
+				 bf.newLine(); bf.write((i+1)+")*************************"); 
+				 bf.newLine(); bf.write("Şövalye Adı: "+sovalyeler.get(i).getName());
+				 bf.newLine(); bf.write("Şövalye Tipi: "+sovalyeler.get(i).getSovalyeType()); 
+				 bf.newLine(); bf.write("Şövalye Id: "+sovalyeler.get(i).getId()); 
+				 bf.newLine(); bf.write("Şövalye Vuruş Hakkı: "+sovalyeler.get(i).getVurusHakki());  
+				 bf.newLine(); bf.write("***************************"); bf.newLine(); 
+				
+			}
+			bf.write("****************************************"); bf.newLine(); bf.newLine();
+		} catch (IOException e) {
+			System.out.println("Dosyaya Yazılma İşlemi Gerçekleşemedi!");
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeTheFile(bf);
+		}
+	}
+	
+	public void writeEnemiestoFile() throws IOException   //Başlangıçta Oluşturulan Düşmanların Dosyaya Yazılmasını bu fonksiyon ile sağladım.
+	{
+		openTheFile();
+		try
+		{		
+		bf.write("DÜŞMANLAR");  bf.newLine();
+		for(int i=0;i<enemies.size();i++)
+		{
+			 bf.newLine(); bf.write((i+1)+")*************************"); 
+			 bf.newLine(); bf.write("Düşman Adı: "+enemies.get(i).getName());
+			 bf.newLine(); bf.write("Düşman Id: "+enemies.get(i).getId()); 
+			 bf.newLine(); bf.write("***************************"); bf.newLine(); 
+			
+		}
+		
+	} catch (IOException e) {
+		System.out.println("Dosyaya Yazılma İşlemi Gerçekleşemedi!");
+		e.printStackTrace();
+	}finally
+		{
+		closeTheFile(bf);
+		}
+		
+	}
+	public void closeTheFile(BufferedWriter bf) throws IOException //Dosya işlemlerinden sonra dosyayı kapatmayı unutmamak adına bu fonksiyonu oluşturdum.
+	{
+		bf.close();
+	}
+	
+	public File getFile()   
+	{
+		return this.file;
+	}
+	public void dowlandGameData()
+	{
+		
+	}
+	
+	public void neOldutoFile() throws IOException
+	{
+		openTheFile();
+		if(file==null)
+			System.out.println("Fİle null");
+		try {
+			bf.write(this.battleMotor.getNeOldu()); bf.newLine();
+		} catch (IOException e) {
+			System.out.println("Dosyaya yazılamadı!");
+			e.printStackTrace();
+		}
+		finally
+		{
+			bf.close();
+		}
+	}
+}
