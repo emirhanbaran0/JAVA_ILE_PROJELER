@@ -1,0 +1,10 @@
+package Characters;
+
+public class StrongSovalye  extends Sovalye{
+
+	public StrongSovalye(String name, int id) {
+		super(name, id);
+		this.setSovalyeType("StrongSovalye");
+	}
+
+}
