@@ -1,0 +1,277 @@
+package GameView;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import Characters.*;
+import GameData.CSVGameData;
+import Others.*;
+
+public class GameView {
+	
+	private static int  ekId=50;  //Eğer güçlü şövalye zayıf şövalyelerle yer değiştirise Id'si burada atanır
+
+	CSVGameData gameData;
+	BattleMotor battleMotor;
+	
+	
+	protected ArrayList<Sovalye> sovalyeler=new ArrayList<>();
+	protected ArrayList<Enemy> enemies=new ArrayList<>();
+	
+	Scanner scan=new Scanner(System.in);
+	
+	
+	public GameView()
+	{
+		
+	}
+	
+	public GameView(ArrayList<Sovalye> sovalyeler, ArrayList<Enemy> enemies) {
+		this.sovalyeler=sovalyeler;
+		this.enemies=enemies;
+		this.battleMotor=new BattleMotor();
+		}
+
+	
+	public void showtheMainMenu()
+	{
+		boolean control=true;
+		int choice;
+		System.out.println("********************************");
+		System.out.println("\nOyuna Hoş Geldiniz");
+		System.out.println("********************************\n");
+		System.out.println("ANA MENÜ");
+		System.out.println("1.Tüm şövalyeleri göster");
+		System.out.println("2.Aktif olan şövalyeleri göster");
+		System.out.println("3.Adı girilen şövalyeleri bilgilerini göster");
+		System.out.println("4.Adı girilen şövalyeyi değiştir");
+		System.out.println("5.Yardım");
+		System.out.println("6.Oyunu Başlat");
+		System.out.println("7.Oyundan Çık ");
+		
+		while(control)
+		{
+			System.out.println("Lütfen Seçiminizi Yapınız: ");
+			choice=scan.nextInt(); scan.nextLine();
+			switch(choice)
+			{
+			case 1:  
+				showtheSovalyeler(sovalyeler);
+			case 2:
+				showtheActiveSovalyeler(sovalyeler);
+				break;
+			case 3:
+				System.out.println("Görmek İstediğiniz Şövalyenin Id'sini Girin: ");
+				int i, id=scan.nextInt(); scan.nextLine();
+				for(i=0;i<sovalyeler.size();i++)
+				{
+					if(id==sovalyeler.get(i).getId())
+					{
+						showtheSovalye(sovalyeler.get(i));
+						break;
+					}
+				}
+				if(i==sovalyeler.size())
+				{
+					System.out.println("Girdiğiniz Id'ye ait Şövalye Bulunamadı!");
+				}
+				break;
+			case 4:
+				changetheSovalye(sovalyeler);
+				break;
+			case 5:
+				help();
+				break;
+			case 6:
+				System.out.println("Savaşta Kullanmak İstediğiniz Şövalyenin Id'sini giriniz: ");
+				 id=scan.nextInt(); scan.nextLine();
+				 int k,j;
+				 for( k=0;k<sovalyeler.size();k++)
+				{
+					if(id==sovalyeler.get(k).getId())
+					{
+						break;
+					}
+				}
+				 System.out.println("Vurmak  İstediğiniz Düşmanın Id'sini giriniz: ");
+				 id=scan.nextInt(); scan.nextLine();
+				 for(j=0;j<enemies.size();j++)
+				 {
+					 if(id==enemies.get(j).getId())
+						{
+							break;
+						}
+				 }
+				 if(k==sovalyeler.size() || j==enemies.size())
+				 {
+					 System.out.println("Gönderilen Id ile eşleşen Şövalye Bulunamadı!");
+				 }
+				 else
+				 {
+					 this.battleMotor.Fight(sovalyeler,enemies, sovalyeler.get(k),enemies.get(j));
+					 this.battleMotor.getNeOldu();
+					 
+				 }
+				break;
+			case 7: 
+				System.out.println("Oyundan Çıkış Yaptınız!");
+				System.exit(0);
+				break;
+			default:
+			{
+				System.out.println("Geçersiz bir seçim yaptınız!Lütfen yeni bir seçim yapınız.");
+			}
+			}
+		}
+	}	
+	
+	
+	public void showtheSovalyeler(ArrayList<Sovalye> sovalyeler)  //Bu fonksiyon tüm oyundaki tüm şövalyeleri verir.
+	{
+		System.out.println("ŞÖVALYELER");
+		for(int i=0;i<sovalyeler.size();i++)
+		{
+			System.out.println((i+1)+")*************************");
+			System.out.println("Şövalye Adı: "+sovalyeler.get(i).getName());
+			System.out.println("Şövalye Tipi: "+sovalyeler.get(i).getSovalyeType());
+			System.out.println("Şövalye Id: "+sovalyeler.get(i).getId());
+			System.out.println("Şövalye Vuruş Hakkı: "+sovalyeler.get(i).getVurusHakki());
+			System.out.println("***************************");
+		}
+	}
+	
+	public void showtheActiveSovalyeler(ArrayList<Sovalye> activeSovalyeler) //Bu fonksiyon aktif olan tüm şövalyeleri verir
+	{
+		System.out.println("AKTİF ŞÖVALYELER");
+		for(int i=0;i<activeSovalyeler.size();i++)
+		{
+			if(activeSovalyeler.get(i).isStatus())
+			{
+				System.out.println((i+1)+")*************************");
+				System.out.println("Şövalye Adı: "+activeSovalyeler.get(i).getName());
+				System.out.println("Şövalye Tipi: "+activeSovalyeler.get(i).getSovalyeType());
+				System.out.println("Şövalye Id: "+activeSovalyeler.get(i).getId());
+				System.out.println("Şövalye Vuruş Hakkı: "+activeSovalyeler.get(i).getVurusHakki());
+				System.out.println("***************************");
+			}
+		}
+	}
+	
+	public void showtheSovalye(Sovalye s) //Seçilen şövalyenin gösterildiği fonksiyon buradadır.
+	{
+	    System.out.println("-------------------------------------");	
+		System.out.println("Şövalye Adı: "+s.getName());
+		System.out.println("Şövalye Tipi: "+s.getSovalyeType());
+		System.out.println("Şövalye Id: "+s.getId());
+		System.out.println("Şövalye Vuruş Hakkı: "+s.getVurusHakki());
+		System.out.println("----------------------------------------");
+	}
+	
+	public void changetheSovalye(ArrayList<Sovalye> sovalyeler)
+	{
+		String name;
+		int i;
+		System.out.println("Değiştirmek istediğiniz Şövalyenin adını Giriniz: ");  
+		name=scan.nextLine();
+		for(i=0;i<sovalyeler.size();i++)    //Girilen ID'ye ait şövalye olup olmadığını ve varsa bu şövalyenin aktiflik kontroünü 
+		{									//bu for dögüsü içerisinde gerçekleştirdim.
+			if(sovalyeler.get(i).getName().equals(name) && sovalyeler.get(i).isStatus()==true)
+			{
+				if(sovalyeler.get(i).getSovalyeType().equals("StrongSovalye")) //Seçilen şövalyenin tipini kontrol ettim
+				{
+					sovalyeler.get(i).setStatus(false); //Eğer güçlü şövalye ise o şövalyeyi etkisizlerip
+						for(int j=0;j<2;j++,ekId++)		//iki yeni güçsüz şövalye atadım.
+					{
+						Sovalye sovalye=new WeakSovalye("Sovalye"+ekId,ekId);
+						sovalyeler.add(sovalye);
+					}
+					System.out.println("İki yeni şövalye ordunuza katılmıştır!");
+				}
+				else if(sovalyeler.get(i).getSovalyeType().equals("WeakSovalye"))
+				{
+					System.out.println("Seçtiğiniz Şövalye Zayıf Bir Şövalyedir!");
+				}
+				break;
+			}
+			else if(sovalyeler.get(i).getName().equals(name) && sovalyeler.get(i).isStatus()==false )
+			{
+				System.out.println("Girdiğiniz Şövalye Aktif Değildir!");
+				break;
+			}
+		}
+		if(i==5)
+		{
+			System.out.println("Girilen isimle eşleşen bir şövalye bulunamadı!");
+		}
+	}
+	
+	public void help() //Help fonksiyonu ile oyunun kurallarını oyuncuya gösterdim
+	{
+		System.out.println("----------OYUN KURALLARI-------------");
+		System.out.println("Zayıf Şövalyeler eğer 3 vuruş hakkı varsa güçlü düşmanları öldürebilir.Aksi takdirde yalnızca zayıf düşmanları öldürebilirler.");
+		System.out.println("Güçlü Şövalyeler her iki düşman tipini de öldürebilir.");
+		System.out.println("Düşmanların hepsinin ölmesi halinde sağ kalan şövalye var ise kullanıcı oyunu kazanır.");
+		System.out.println("Düşmanlar sağ olup şövalyelerin hepsi ölmüş ise kullanıcı oyunu kaybeder.");
+		System.out.println("Oyunda şövalyelere bir vuruş hakkı kesin olarak verilirken buna ek olarak bonus 0-2 arasında ek vuruş hakkı sağlanır.");
+		System.out.println("Oyun Menü Seçimi ile devam ediyor...");
+		this.showtheMainMenu();
+	}
+
+	public void startScreen()
+	{
+		
+	}
+	
+	public void makeChoicefromMenu() //Menüden seçim yapmamızı sağlayan fonksiyon
+	{
+		showtheMainMenu();
+	}
+	
+	
+	public void showtheActiveEnemies(ArrayList<Enemy> enemies)  //Savaştan sonra ölü olmayan düşmanları oyun durumunda göstermek için 
+	{															//bu fonksiyonu kurdum.
+		System.out.println("DÜŞMANLAR");
+		for(int i=0;i<enemies.size();i++)
+		{
+			if(enemies.get(i).status)  
+			{
+				System.out.println((i+1)+")*************************");
+				System.out.println("Düşman Adı: "+enemies.get(i).getName());
+				System.out.println("***************************");
+			}
+		}
+	}
+	
+	public boolean showtheGameStatus(ArrayList<Enemy> enemies,ArrayList<Sovalye> sovalyeler)
+	{
+		
+		int counterEnemy=0,counterSovalye=0;
+		for(int i=0;i<enemies.size();i++)   //Savaştan sonra sağ kalan şövalyeleri sayan sayaç.
+		{
+			if(enemies.get(i).status)
+				counterEnemy++;
+			if(sovalyeler.get(i).isStatus()) //Savaştan sonra sağ kalan düşmanları sayan sayaç.
+				counterSovalye++;
+		}
+		if(counterSovalye!=0 && counterEnemy!=0)    //Eğer sağ kalan şövalye ve düşman varsa oyun devam eder.
+		{
+			System.out.println("Oyun Devam Ediyor...");
+			System.out.println("Oyun Durumu: ");
+			this.showtheActiveSovalyeler(sovalyeler);
+			this.showtheActiveEnemies(enemies);
+			return true;
+			
+		}
+		else if(counterSovalye!=0  && counterEnemy==0 ) //Sağ kalan düşman yoksa kullanıcı oyunu kazanır.
+		{
+			System.out.println("Oyun Kazandınız.Tebriklerrr!!!!");
+			return false;
+		}
+		else
+		{
+			System.out.println("Zayıf Şövalye ile Güçlü Düşmani Yenemezsiniz."); //Sağ kalan şövalye yoksa kullanıcı oyunu kaybeder.
+			System.out.println("Oyunu Kaybettiniz :((");
+			return false;
+		}
+	}
+}
