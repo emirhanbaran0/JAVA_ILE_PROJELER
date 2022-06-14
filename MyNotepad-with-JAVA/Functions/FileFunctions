@@ -1,0 +1,26 @@
+import java.awt.FileDialog;
+
+public class FileFunctions {
+
+	GUI gui;
+	FileFunctions(GUI gui)
+	{
+		this.gui=gui;
+	}
+	
+	public void newFile()
+	{
+		gui.textArea.setText("");
+		gui.window.setTitle("New");
+	}
+	public void openFile()
+	{
+		FileDialog fD=new FileDialog(gui.window,"Open",FileDialog.LOAD);
+		fD.setVisible(true);
+	}
+	public void saveFile()
+	{
+		FileDialog fD=new FileDialog(gui.window,"Open",FileDialog.SAVE);
+		fD.setVisible(true);
+	}
+}
