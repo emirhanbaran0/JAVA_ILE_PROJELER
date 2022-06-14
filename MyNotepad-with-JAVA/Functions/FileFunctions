@@ -1,8 +1,15 @@
 import java.awt.FileDialog;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+
+import javax.swing.JOptionPane;
 
 public class FileFunctions {
 
 	GUI gui;
+	String fileName;
+	String fileAdress;
 	FileFunctions(GUI gui)
 	{
 		this.gui=gui;
@@ -17,6 +24,27 @@ public class FileFunctions {
 	{
 		FileDialog fD=new FileDialog(gui.window,"Open",FileDialog.LOAD);
 		fD.setVisible(true);
+		
+		if(fD.getFile()!=null)
+		{
+			fileName=fD.getFile();
+			fileAdress=fD.getDirectory();
+			gui.window.setTitle(fileName);
+		}
+		
+		try {
+			BufferedReader bF=new BufferedReader(new FileReader(fileAdress+fileName));  //We need  adress of File which will we read.
+			gui.textArea.setText("");
+			String line=null;
+			while((line=bF.readLine())!=null)
+			{
+				gui.textArea.append(line+"\n");
+			}
+			bF.close();
+		}catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null,gui,"The File couldn't open!",1 );
+		}
 	}
 	public void saveFile()
 	{
