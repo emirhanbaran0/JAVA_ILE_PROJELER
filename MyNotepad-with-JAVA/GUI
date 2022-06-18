@@ -11,20 +11,33 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class GUI implements ActionListener{
-
+	
+	boolean wordWrapOn=false;
+	
+	//Text Area
 	JFrame window;
 	JTextArea textArea;
 	JScrollPane scrollPane;
+	//Top Menu
 	JMenuBar menuBar;
 	JMenu fileMenu,editMenu,formatMenu,colorMenu;
+	//File Menu
 	JMenuItem itemNew,itemOpen,itemSave,itemSaveAs,itemExit;
-	
-	FileFunctions func=new FileFunctions(this);
+	//Format Menu
+	JMenuItem itemWrap,itemFontArial,itemFontComicMS,itemFontTNR,itemFontSize8,itemFontSize12,itemFontSize16,itemFontSize20,itemFontSize10;
+	JMenu menuFont,menuFontSize;
+	//Functions
+	FileFunctions funcFile=new FileFunctions(this);
+	FormatFunctions funcFormat=new FormatFunctions(this);
 	GUI()
 	{
 		createWindow();
 		createTextArea();
 		createMenuBar();
+		createFormatMenu();
+		funcFormat.selectedFont="Arial";
+		funcFormat.createFont(12);
+		funcFormat.wordWrap();
 		window.setVisible(true);
 	}
 	
@@ -56,12 +69,16 @@ public class GUI implements ActionListener{
 		fileMenu.add(itemSaveAs);
 		fileMenu.add(itemExit);
 		menuBar.add(fileMenu);
+		
 		editMenu=new JMenu("Edit");
 		menuBar.add(editMenu);
+		
 		formatMenu=new JMenu("Format");
 		menuBar.add(formatMenu);
+		
 		colorMenu=new JMenu("Color");
 		menuBar.add(colorMenu);
+		
 	}
 	public void createItems()
 	{
@@ -84,6 +101,63 @@ public class GUI implements ActionListener{
 		itemExit=new JMenuItem("Exit");
 		itemExit.addActionListener(this);
 		itemExit.setActionCommand("exit");
+		
+	}
+	
+	public void createFormatMenu()
+	{
+		itemWrap=new JMenuItem("Word Wrap: Off");
+		itemWrap.addActionListener(this);
+		itemWrap.setActionCommand("wrap");
+		formatMenu.add(itemWrap);
+		
+		menuFont=new JMenu("Font");
+		formatMenu.add(menuFont);
+		
+		itemFontComicMS=new JMenuItem("Comic Sense MS");
+		itemFontComicMS.addActionListener(this);
+		itemFontComicMS.setActionCommand("comic");
+		menuFont.add(itemFontComicMS);
+		
+		itemFontArial=new JMenuItem("Arial");
+		itemFontArial.addActionListener(this);
+		itemFontArial.setActionCommand("arial");
+		menuFont.add(itemFontArial);
+		
+		itemFontTNR=new JMenuItem("Times New Roman");
+		itemFontTNR.addActionListener(this);
+		itemFontTNR.setActionCommand("nyt");
+		menuFont.add(itemFontTNR);
+		
+		menuFontSize=new JMenu("Font Size");
+		formatMenu.add(menuFontSize);
+		
+		itemFontSize8=new JMenuItem("8");
+		itemFontSize8.addActionListener(this);
+		itemFontSize8.setActionCommand("8");
+		menuFontSize.add(itemFontSize8);
+		
+		itemFontSize10=new JMenuItem("10");
+		itemFontSize10.addActionListener(this);
+		itemFontSize10.setActionCommand("10");
+		menuFontSize.add(itemFontSize10);
+		
+		itemFontSize12=new JMenuItem("12");
+		itemFontSize12.addActionListener(this);
+		itemFontSize12.setActionCommand("12");
+		menuFontSize.add(itemFontSize12);
+		
+		itemFontSize16=new JMenuItem("16");
+		itemFontSize16.addActionListener(this);
+		itemFontSize16.setActionCommand("16");
+		menuFontSize.add(itemFontSize16);
+		
+		itemFontSize20=new JMenuItem("20");
+		itemFontSize20.addActionListener(this);
+		itemFontSize20.setActionCommand("20");
+		menuFontSize.add(itemFontSize20);
+		
+		
 	}
 
 	@Override
@@ -94,18 +168,50 @@ public class GUI implements ActionListener{
 		switch(command)
 		{
 		case "new":
-			func.newFile();
+			funcFile.newFile();
 			break;
 		case "open": 
-			func.openFile();
+			funcFile.openFile();
 			break;
 		case "save": 
-			func.saveFile();
+			funcFile.saveFile();
+			break;
+		case "saveas": 
+			funcFile.saveAsFile();
+			break;
+		case "exit": 
+			funcFile.exit();
+			break;
+		case "wrap": 
+			funcFormat.wordWrap();
+			break;
+		case "arial": 
+			funcFormat.setFont("Arial");
+			break;
+		case "comic": 
+			funcFormat.setFont("Comic Sans MS");
+			break;
+		case "nyt": 
+			funcFormat.setFont("Times New Roman");
+			break;
+		case "8": 
+			funcFormat.createFont(8);
+			break;
+		case "10": 
+			funcFormat.createFont(10);
+			break;
+		case "12": 
+			funcFormat.createFont(12);
+			break;
+		case "16": 
+			funcFormat.createFont(16);
+			break;
+		case "20": 
+			funcFormat.createFont(20);
 			break;
 		default:
 			break;
-		}	
+		}
+		
 	}
-
 }
-
