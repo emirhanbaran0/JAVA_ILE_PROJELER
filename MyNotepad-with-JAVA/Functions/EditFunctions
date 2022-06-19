@@ -1,0 +1,19 @@
+public class EditFunctions {
+
+	GUI gui;
+	
+	EditFunctions(GUI gui)
+	{
+		this.gui=gui;
+	}
+	
+	public void unDo()
+	{
+		gui.uM.undo();
+	}
+	
+	public void reDo()
+	{
+		gui.uM.redo();
+	}
+}
