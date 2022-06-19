@@ -26,18 +26,23 @@ public class GUI implements ActionListener{
 	//Format Menu
 	JMenuItem itemWrap,itemFontArial,itemFontComicMS,itemFontTNR,itemFontSize8,itemFontSize12,itemFontSize16,itemFontSize20,itemFontSize10;
 	JMenu menuFont,menuFontSize;
+	//Color Menu
+	JMenuItem black,white,yellow,red,blue,green;
 	//Functions
 	FileFunctions funcFile=new FileFunctions(this);
 	FormatFunctions funcFormat=new FormatFunctions(this);
+	ColorFunction funcColor=new ColorFunction(this);
 	GUI()
 	{
 		createWindow();
 		createTextArea();
 		createMenuBar();
 		createFormatMenu();
-		funcFormat.selectedFont="Arial";
-		funcFormat.createFont(12);
+		createColorMenu();
+		funcFormat.selectedFont="Arial"; //Default value of font style.
+		funcFormat.createFont(12);   //Default value of font size.
 		funcFormat.wordWrap();
+		funcColor.changeColor("white"); //Default value of background color.
 		window.setVisible(true);
 	}
 	
@@ -159,6 +164,41 @@ public class GUI implements ActionListener{
 		
 		
 	}
+	
+	public void createColorMenu()
+	{
+		
+		white=new JMenuItem("White");
+		white.addActionListener(this);
+		white.setActionCommand("white");
+		colorMenu.add(white);
+		
+		yellow=new JMenuItem("Yellow");
+		yellow.addActionListener(this);
+		yellow.setActionCommand("yellow");
+		colorMenu.add(yellow);
+		
+		black=new JMenuItem("Black");
+		black.addActionListener(this);
+		black.setActionCommand("black");
+		colorMenu.add(black);
+		
+		red=new JMenuItem("Red");
+		red.addActionListener(this);
+		red.setActionCommand("red");
+		colorMenu.add(red);
+		
+		blue=new JMenuItem("Blue");
+		blue.addActionListener(this);
+		blue.setActionCommand("blue");
+		colorMenu.add(blue);
+		
+		green=new JMenuItem("Green");
+		green.addActionListener(this);
+		green.setActionCommand("green");
+		colorMenu.add(green);
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -209,9 +249,28 @@ public class GUI implements ActionListener{
 		case "20": 
 			funcFormat.createFont(20);
 			break;
+		case "white": 
+			funcColor.changeColor(command);
+			break;
+		case "black": 
+			funcColor.changeColor(command);
+			break;	
+		case "yellow": 
+			funcColor.changeColor(command);
+			break;
+		case "green": 
+			funcColor.changeColor(command);
+			break;
+		case "blue": 
+			funcColor.changeColor(command);
+			break;
+		case "red": 
+			funcColor.changeColor(command);
+			break;
 		default:
 			break;
 		}
 		
 	}
+
 }
