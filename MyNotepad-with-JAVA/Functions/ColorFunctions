@@ -1,0 +1,44 @@
+import java.awt.Color;
+
+public class ColorFunction {
+
+	GUI gui;
+	
+	ColorFunction(GUI gui)
+	{
+		this.gui=gui;
+	}
+	
+	public void changeColor(String color)
+	{
+		switch(color)
+		{
+		case "white": 
+			gui.window.getContentPane().setBackground(Color.WHITE);
+			gui.textArea.setBackground(Color.WHITE);
+			gui.textArea.setForeground(Color.BLACK);
+			break;
+		case "black": 
+			gui.window.getContentPane().setBackground(Color.BLACK);
+			gui.textArea.setBackground(Color.BLACK);
+			gui.textArea.setForeground(Color.WHITE);
+			break;
+		case "green": 
+			gui.window.getContentPane().setBackground(Color.GREEN);
+			gui.textArea.setBackground(Color.GREEN);
+			break;
+		case "blue": 
+			gui.window.getContentPane().setBackground(Color.BLUE);
+			gui.textArea.setBackground(Color.BLUE);
+			break;
+		case "red": 
+			gui.window.getContentPane().setBackground(Color.RED);
+			gui.textArea.setBackground(Color.RED);
+			break;
+		case "yellow": 
+			gui.window.getContentPane().setBackground(Color.YELLOW);
+			gui.textArea.setBackground(Color.YELLOW);
+			break;
+		}
+	}
+}
