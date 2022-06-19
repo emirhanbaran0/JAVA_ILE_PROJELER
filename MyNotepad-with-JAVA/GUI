@@ -9,6 +9,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
 
 public class GUI implements ActionListener{
 	
@@ -28,10 +31,15 @@ public class GUI implements ActionListener{
 	JMenu menuFont,menuFontSize;
 	//Color Menu
 	JMenuItem black,white,yellow,red,blue,green;
+	//Edit Menu
+	JMenuItem unDo,reDo;
 	//Functions
 	FileFunctions funcFile=new FileFunctions(this);
 	FormatFunctions funcFormat=new FormatFunctions(this);
 	ColorFunction funcColor=new ColorFunction(this);
+	
+	UndoManager uM=new UndoManager();
+	
 	GUI()
 	{
 		createWindow();
@@ -39,6 +47,7 @@ public class GUI implements ActionListener{
 		createMenuBar();
 		createFormatMenu();
 		createColorMenu();
+		createEditMenu();
 		funcFormat.selectedFont="Arial"; //Default value of font style.
 		funcFormat.createFont(12);   //Default value of font size.
 		funcFormat.wordWrap();
@@ -56,6 +65,17 @@ public class GUI implements ActionListener{
 	public void createTextArea()
 	{
 		textArea=new JTextArea();
+		
+		textArea.getDocument().addUndoableEditListener(new UndoableEditListener()
+				{
+
+					@Override
+					public void undoableEditHappened(UndoableEditEvent e) {
+						uM.addEdit(e.getEdit());
+					}
+			
+				});
+		
 		scrollPane=new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		window.add(scrollPane);
@@ -199,7 +219,19 @@ public class GUI implements ActionListener{
 		colorMenu.add(green);
 		
 	}
-
+	
+	public void createEditMenu()
+	{
+		unDo=new JMenuItem("Undo");
+		unDo.addActionListener(this);
+		unDo.setActionCommand("undo");
+		editMenu.add(unDo);
+		
+		reDo=new JMenuItem("Redo");
+		reDo.addActionListener(this);
+		reDo.setActionCommand("redo");
+		editMenu.add(reDo);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	
@@ -264,7 +296,10 @@ public class GUI implements ActionListener{
 		case "blue": 
 			funcColor.changeColor(command);
 			break;
-		case "red": 
+		case "undo": 
+			funcColor.changeColor(command);
+			break;
+		case "redo": 
 			funcColor.changeColor(command);
 			break;
 		default:
