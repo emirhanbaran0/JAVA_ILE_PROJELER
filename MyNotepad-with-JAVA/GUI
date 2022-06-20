@@ -37,7 +37,7 @@ public class GUI implements ActionListener{
 	FileFunctions funcFile=new FileFunctions(this);
 	FormatFunctions funcFormat=new FormatFunctions(this);
 	ColorFunction funcColor=new ColorFunction(this);
-	
+	KeyBoardShortCuts shortCuts= new KeyBoardShortCuts(this);
 	UndoManager uM=new UndoManager();
 	
 	GUI()
@@ -65,6 +65,7 @@ public class GUI implements ActionListener{
 	public void createTextArea()
 	{
 		textArea=new JTextArea();
+		textArea.addKeyListener(shortCuts);
 		
 		textArea.getDocument().addUndoableEditListener(new UndoableEditListener()
 				{
