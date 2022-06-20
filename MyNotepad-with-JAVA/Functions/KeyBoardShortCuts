@@ -1,0 +1,43 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class KeyBoardShortCuts implements KeyListener {
+
+	GUI gui;
+	
+	KeyBoardShortCuts(GUI gui)
+	{
+		this.gui=gui;
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		if(e.isControlDown() && e.getKeyCode()==KeyEvent.VK_S)
+		{
+			gui.funcFile.saveFile();
+		}
+		
+		if( e.isShiftDown() && e.isControlDown() && e.getKeyCode()==KeyEvent.VK_S)
+		{
+			gui.funcFile.saveAsFile();
+		}
+		if(e.isControlDown() && e.getKeyCode()==KeyEvent.VK_E)
+		{
+			gui.textArea.setText(gui.textArea.getText()+"Bu notepad Emirhan Baran tarafindan geliştirilmiştir!");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		
+	}
+
+}
