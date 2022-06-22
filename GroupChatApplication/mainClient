@@ -1,0 +1,17 @@
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class mainClient {
+
+	public static void main(String[] args) throws IOException {
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter your username for the group chat: ");
+		String username=scan.nextLine();
+		Socket socket=new Socket("localhost",5501);
+		Client client=new Client(socket,username);
+		client.listenForMessage();
+		client.sendMessage();
+	}
+
+}
