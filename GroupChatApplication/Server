@@ -1,0 +1,36 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	
+	
+	private ServerSocket sSocket;
+	
+	Server(int port) throws IOException
+	{
+		this.sSocket=new ServerSocket(port);
+		System.out.println("Server has been Started! ");
+	}
+	
+	public void startServer() throws IOException
+	{
+		while(!sSocket.isClosed())
+		{
+			Socket socket=sSocket.accept();
+			System.out.println("A new Client has connected! ");
+			ClientHandler clientHandler=new ClientHandler(socket);
+			clientHandler.start();
+		}
+		
+	}
+	
+	public void  closeServerSocket() throws IOException
+	{
+		if(sSocket!=null)
+		{
+			sSocket.close();
+		}
+	}
+	
+}
