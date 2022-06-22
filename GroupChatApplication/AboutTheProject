@@ -1,0 +1,4 @@
+Hello everyone, in this project, there will be a small messaging application
+that I am trying to make in accordance with the structure of java networking, 
+socket programming, multi-threading (parallel programming). The user will be
+able to message each other by creating multiple command lines.
