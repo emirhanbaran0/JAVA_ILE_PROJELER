@@ -1,0 +1,86 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class Client {
+
+	private Socket socket;
+	private DataOutputStream dos;
+	private DataInputStream dis;
+	String userName;
+
+	Client(Socket socket, String userName) throws IOException {
+		this.socket = socket;
+		dos = new DataOutputStream(socket.getOutputStream());
+		dis = new DataInputStream(socket.getInputStream());
+		this.userName = userName;
+	}
+
+	public void sendMessage() {
+		try {
+			dos.writeChars(userName);
+			dos.writeChars("\n");
+			dos.flush();
+			Scanner scan = new Scanner(System.in);
+			while (socket.isConnected()) {
+				String messagetoSend = scan.nextLine();
+				dos.writeChars(userName + " :" + messagetoSend);
+				dos.writeChars("\n");
+				dos.flush();
+			}
+
+		} catch (IOException e) {
+			closeEveryThing(socket, dis, dos);
+		}
+	}
+
+	public void listenForMessage() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				String messageFromChat;
+
+				while (socket.isConnected()) {
+					try {
+						messageFromChat=dis.readLine();
+						System.out.println(messageFromChat);
+					} catch (IOException e) {
+						closeEveryThing(socket, dis, dos);
+					}
+				}
+			
+			}
+		}).start();
+	}
+		private void closeEveryThing(Socket socket, DataInputStream dis, DataOutputStream dos) {
+			
+			{
+				try {
+					if(socket!=null)
+					{
+						socket.close();
+					}
+					
+					
+					if(dis!=null)
+					{
+						dis.close();
+					}
+						
+					
+					if(dos!=null)
+					{
+						dos.close();
+					}
+						
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	}
+}
