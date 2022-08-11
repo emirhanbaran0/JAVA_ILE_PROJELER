@@ -1,0 +1,63 @@
+public class Starbucks {
+
+
+	//Gerekli
+	private String kahveBoyutu;
+	private String kahveTipi;
+	private String Bardak;
+	
+	//Opsiyonel
+	private String yumusakIcim;
+	private String laktozSecim;
+	private String seker;
+	
+	 static class Builder  //Builder Sınıfımız
+	 {
+		//Bir kahvede kesin olması gereken parametreler
+			private String kahveBoyutu;
+			private String kahveTipi;
+			private String bardak;
+			
+			//Opsiyonel olarak kahveye eklenilebilecek parametreler
+			private String yumusakIcim;
+			private String laktozSecim;
+			private String seker;
+			
+     
+			Builder(String kahveBoyutu,String kahveTipi,String bardak)
+			{
+				this.kahveBoyutu=kahveBoyutu;
+				this.kahveTipi=kahveTipi;
+				this.bardak=bardak;
+			}
+			
+       //Opsiyonel parametrelemiz için oluşturduğumuz metotlar
+			public Builder laktozTayfa(String laktozSecim)
+			{
+				this.laktozSecim=laktozSecim;
+				return this;
+			}
+			public Builder yumusakTayfa(String yumusakIcim)
+			{
+				this.yumusakIcim=yumusakIcim;
+				return this;
+			}
+			public Builder sekerTayfa(String seker)
+			{
+				this.seker=seker;
+				return this;
+			}
+      
+      
+			public Starbucks build()
+			{
+				return new Starbucks(this);
+			}
+	 }
+	 
+	 public Starbucks(Builder builder) {
+			this.kahveTipi=builder.kahveTipi;
+			this.kahveBoyutu=builder.kahveBoyutu;
+			this.Bardak=builder.bardak;
+		}
+}
